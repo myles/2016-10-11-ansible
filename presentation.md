@@ -3,7 +3,9 @@ slidenumbers: true
 
 # [fit] Ansible
 
-# [fit] Orchestrate your infustrature like **Gustav Mahler**
+# [fit] Orchestrate your infustrature like **Gustav Mahler**[^1]
+
+[^1]: Gustav Mahler is the first result when you Google _famous conductors_.
 
 ---
 
