@@ -3,13 +3,13 @@ slidenumbers: true
 
 # [fit] Ansible
 
-# [fit] Orchestrate your infrastructure like **Gustav Mahler**[^1].
+# [fit] Orchestrate your infustrature like **Gustav Mahler**[^1]
 
 [^1]: Gustav Mahler is the first result when you Google _famous conductors_.
 
 ---
 
-![left](001-gustav-mahler.jpg)
+![left](media/001-gustav-mahler.jpg)
 
 > If a developer could say what he had to say in words he would not bother tyring to say it in code.
 >
