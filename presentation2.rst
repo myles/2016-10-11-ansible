@@ -30,6 +30,18 @@ Starting up vagrant
     * let's use a debian image
 
 
+Vagrantfile pt. 1
+------------------
+
+    * TODO
+
+
+
+Vagrantfile pt. 5
+-----------------
+
+    * TODO
+
 
 Getting foot in the door
 ------------------------
@@ -71,7 +83,8 @@ Installing OpenSource hypervisor providers
 Loading Debian Preseed in USB/CD images
 ---------------------------------------
 
-    * https://www.debian.org/releases/jessie/i386/apbs02.html.en
+    * using preseeding -- https://www.debian.org/releases/jessie/i386/apbs02.html.en
+    * edit iso -- https://wiki.debian.org/DebianInstaller/Preseed/EditIso
     * Really fragile!
 
 .. code-block:: bash
@@ -111,3 +124,4 @@ Generate an image
 
     # genisoimage -o debian-amd64-preseed.iso -r -J -no-emul-boot -boot-load-size 4  \
         -boot-info-table -b isolinux/isolinux.bin -c isolinux/boot.cat ./cd
+
