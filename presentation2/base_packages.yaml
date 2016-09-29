@@ -1,0 +1,20 @@
+---
+- name: Configure base packages for a server
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: set up authorized key
+      authorized_key: >
+        user=alex
+        key={{ lookup('file', '/home/alex/.ssh/id_rsa.pub') }}
+    - name: copy screenrc
+      copy: src=copy_files/screenrc dest=/home/alex/.screenrc
+    - name: set sudoers to nopasswd
+      copy: src=copy_files/sudoers dest=/etc/sudoers
+    - name: install screen
+      apt: name=screen update_cache=no
+    - name: install vim
+      apt: name=vim update_cache=no
+
