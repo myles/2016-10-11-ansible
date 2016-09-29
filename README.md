@@ -1,7 +1,5 @@
-![](title-slide.png)
+# October 2016 GTALUG Talk
 
-# Ansible: Orchestrate Your Infustrature Like Gustav Mahler
-
-Ansible allows you to turn your infrastructure administration into a codebase. Descripting all the processes that are necessary for deploying a server with a set of provisioning scrips that can be stored in version control.
-
-Myles Braithwaite will be giving an overview of deploy and configure your infrastructure with Ansible.
+* [Getting Started with Ansible](./1-getting-started/) - [Myles
+    Braithwaite](https://mylesb.ca/)
+* [Test Enviroment for Ansible](./2-testing) - Alex Volkov
