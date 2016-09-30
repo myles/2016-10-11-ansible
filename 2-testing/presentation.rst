@@ -74,7 +74,6 @@ Installing OpenSource hypervisor providers
 
 * vagrant-lxc, vagrant-libvirt -- lxc and libvirt available in stretch and newer
 * vagrant-mutate -- convert original images to lxc/libvirt
-* for older debian, other distros, use vagrant plugins
 
 If packages aren't available
 ----------------------------
