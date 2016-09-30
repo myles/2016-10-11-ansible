@@ -1,0 +1,40 @@
+---
+- name: update apt cache
+  apt:
+    update_cache: yes
+  tags: dependencies
+
+- name: upgrade all safe packages
+  apt:
+    upgrade: safe
+  tags: dependencies
+
+- name: install required packages
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - "{{ required_packages }}"
+  tags: dependencies
+
+- name: install security-related packages
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - fail2ban
+    - whois
+    - lynis
+    - rkhunter
+  tags:
+    - dependencies
+    - security
+
+- name: ensure fail2ban is started
+  service:
+    name: fail2ban
+    state: started
+
+- include: users.yml
+- include: firewall.yml
+- include: ssh.yml

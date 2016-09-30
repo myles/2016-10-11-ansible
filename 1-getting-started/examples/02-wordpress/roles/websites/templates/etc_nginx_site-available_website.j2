@@ -1,0 +1,37 @@
+# {{ ansible_managed }}
+
+server {
+  listen 80;
+  listen [::]:80;
+
+  server_name
+    {{ domain }}
+    www.{{ domain }};
+
+  root /srv/www/{{ domain }}/www/html;
+
+  index index.php index.html;
+
+  location / {
+    try_files $uri $uri/ /index.php?args;
+  }
+
+  location ~ /favicon.ico {
+    access_log off;
+    log_not_found off;
+  }
+
+  location ~ \.php$ {
+    try_files $uri =404;
+    fastcgi_pass unix:/var/run/php5-fpm.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+  }
+
+  include /etc/nginx/h5bp/basic.conf;
+  include /etc/nginx/letsencrypt.conf;
+
+  error_log /srv/www/{{ domain }}/www/logs/error.log;
+  access_log /srv/www/{{ domain }}/www/logs/access.log;
+}

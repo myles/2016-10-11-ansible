@@ -41,7 +41,7 @@
         regexp: "^PasswordAuthentication"
         line: "PasswordAuthentication no" state=present
       notify: restart ssh
-      tags: acl
+      tags: ssh
   
     - name: disallow password authentication
       lineinfile:
@@ -50,7 +50,7 @@
         line: "PasswordAuthentication no"
         state: present
       notify: restart ssh
-      tags: acl
+      tags: ssh
     
     - name: install required packages
       apt:
@@ -91,6 +91,24 @@
       ufw:
         state: enabled
       tags: firewall
+    
+    - name: install security-related packages
+      apt:
+        pkg: "{{ item }}"
+        state: installed
+      with_items:
+        - fail2ban
+        - whois
+        - lynis
+        - rkhunter
+      tags:
+        - dependencies
+        - security
+    
+    - name: ensure fail2ban is started
+      service:
+        name: fail2ban
+        state: started
   
   handlers:
     - name: restart ssh
@@ -101,4 +119,9 @@
     - name: restart ufw
       service:
         name: ufw
+        state: restarted
+    
+    - name: restart fail2ban
+      service:
+        name: fail2ban
         state: restarted

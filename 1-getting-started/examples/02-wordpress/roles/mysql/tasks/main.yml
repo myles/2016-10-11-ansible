@@ -1,0 +1,46 @@
+---
+- name: install mariadb
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - mariadb-server
+    - mariadb-client
+    - python-mysqldb
+  tags:
+    - mysql
+    - dependencies
+
+- name: set mariadb root password
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_password }}"
+    state: present
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+    - "{{ ansible_nodename }}"
+    - "{{ ansible_hostname }}"
+  tags:
+    - mysql
+
+- name: set the my.cnf
+  copy:
+    content: "[client]\npassword='{{ mysql_root_password }}'\n"
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: allow access to the mysql database
+  ufw:
+    rule: allow
+    port: 3306
+    proto: tcp
+  tags:
+    - mysql
+    - firewall
+
+- include: backup.yml

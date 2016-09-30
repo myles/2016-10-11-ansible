@@ -1,0 +1,36 @@
+mysql_host: alpaca.example.com
+mysql_root_password: password
+
+websites:
+  - title: Myles' Life
+    domain: myles.life
+    admin:
+      user: myles
+      pass: password
+      email: me@myles.life
+    db:
+      name: myles_life-www
+      user: myles_life-www
+      pass: myles_life-www
+  - title: I Love Myles
+    domain: ilovemyles.com
+    admin:
+      user: myles
+      pass: password
+      email: myles@ilovemyles.com
+    db:
+      name: ilovemyles_com-www
+      user: ilovemyles_com-www
+      pass: ilovemyles_com-www
+
+users:
+  - username: myles
+    password: $6$rounds=656000$MVpijHsbPAWVSLY2$5xna9ig7u6n8OZb.WpoSQukt9a2BN.NH5QYbH9lSi3Ouj841B4OLiFm1u2sBbSDUzmh9pwLFjV.izHTXjlXux0
+    atuhorized_key: ~/Downloads/myles-id_rsa.pub
+
+required_packages:
+  - git
+  - python3.5
+  - python3.5-dev
+  - byobu
+  - vim

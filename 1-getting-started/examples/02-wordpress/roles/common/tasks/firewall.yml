@@ -1,0 +1,18 @@
+---
+- name: install ufw
+  apt:
+    pkg: ufw
+    state: installed
+  tags:
+    - dependencies
+    - firewall
+
+- name: deny everything
+  ufw:
+    policy: deny
+  tags: firewall
+
+- name: enable ufw
+  ufw:
+    state: enabled
+  tags: firewall

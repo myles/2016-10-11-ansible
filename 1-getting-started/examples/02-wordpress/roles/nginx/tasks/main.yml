@@ -1,0 +1,17 @@
+---
+- name: install nginx
+  apt:
+    pkg: nginx-full
+    state: installed
+  tags:
+    - nginx
+    - dependencies
+
+- name: set firewall rules for http and https
+  ufw: rule=allow port={{ item }} proto=tcp
+  with_items:
+    - http
+    - https
+  tags:
+    - nginx
+    - firewall
