@@ -1,0 +1,104 @@
+---
+- name: First ten minutes on a server
+  hosts: servers
+  become: yes
+  become_user: root
+  var_files:
+    - vars.yml
+  
+  tasks:
+    - name: update apt cache
+      apt:
+        update_cache: yes
+      tags: dependencies
+    
+    - name: upgrade all safe packages
+      apt:
+        upgrade: safe
+      tags: dependencies
+    
+    - name: create the user accounts
+      user:
+        name: "{{ item.username }}"
+        password: "{{ item.password }}"
+        state: present
+        shell: /bin/bash
+        groups: sudo
+        generate_ssh_key: yes
+      with_items: "{{ users }}"
+      tags: users
+    
+    - name: add authorized_keys for the user
+      authorized_key:
+        user: "{{ item.username }}"
+        key: "{{ lookup('file', item.public_keys) }}"
+      with_items: "{{ users }}"
+      tags: users
+    
+    - name: disallow root ssh access
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^PasswordAuthentication"
+        line: "PasswordAuthentication no" state=present
+      notify: restart ssh
+      tags: acl
+  
+    - name: disallow password authentication
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^PasswordAuthentication"
+        line: "PasswordAuthentication no"
+        state: present
+      notify: restart ssh
+      tags: acl
+    
+    - name: install required packages
+      apt:
+        pkg: "{{ item }}"
+        state: installed
+      with_items:
+        - "{{ required_packages }}"
+      tags: dependencies
+    
+    - name: install ufw
+      apt:
+        pkg: ufw
+        state: installed
+      tags:
+        - dependencies
+        - firewall
+    
+    - name: deny everything
+      ufw:
+        policy: deny
+      tags: firewall
+    
+    - name: set firewall rule for ssh
+      ufw:
+        rule: allow
+        port: ssh
+        proto: tcp
+      tags: firewall
+    
+    - name: set firewall rule for mosh
+      ufw:
+        rule: allow
+        port: 60000:61000
+        proto: udp
+      tags: firewall
+    
+    - name: enable ufw
+      ufw:
+        state: enabled
+      tags: firewall
+  
+  handlers:
+    - name: restart ssh
+      service:
+        name: ssh
+        state: restarted
+    
+    - name: restart ufw
+      service:
+        name: ufw
+        state: restarted

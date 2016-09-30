@@ -1,0 +1,21 @@
+---
+# How to generate the password
+# pip install passlib
+# python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
+
+users:
+  - username: myles
+    password: $6$rounds=656000$MVpijHsbPAWVSLY2$5xna9ig7u6n8OZb.WpoSQukt9a2BN.NH5QYbH9lSi3Ouj841B4OLiFm1u2sBbSDUzmh9pwLFjV.izHTXjlXux0
+    atuhorized_key: ~/Downloads/myles-id_rsa.pub
+  - username: alex
+    password: $6$rounds=656000$yPw2Lyvy.aPatRAT$Tb7NxMPxNWPDGa80GP3YKvmEEGYJmwBV9.0hJMWh6SCzWdJfR2rECr9zItcS7RZqFjKEUP9rHz8EaEe6bRaRX0
+    public_keys: ~/Downloads/alex-id_rsa.pub
+
+required_packages:
+  - build-essential
+  - git
+  - mosh
+  - python3.5
+  - python3.5-dev
+  - byobu
+  - vim
