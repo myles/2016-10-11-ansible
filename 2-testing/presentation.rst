@@ -4,15 +4,15 @@ Vagrant, hypervisors, debian automated install and other rants
 What is Vagrant?
 ----------------
 
-    * A person without a settled home or regular work who wanders from place to place and lives by begging.
-    * Vagrant is an Open-source software product for building and maintaining portable virtual development environments
-    * Vagrant provides easy to configure, reproducible, and portable work environments.
+* A person without a settled home or regular work who wanders from place to place and lives by begging.
+* Vagrant is an Open-source software product for building and maintaining portable virtual development environments
+* Vagrant provides easy to configure, reproducible, and portable work environments.
 
 Why Vagrant is useful?
 ----------------------
 
-    * Vagrant provides fully virtualized OS environment that can be build in seconds
-    * You need to debug a script, and a vargrant is your os undo button
+* Vagrant provides fully virtualized OS environment that can be build in seconds
+* You need to debug a script, and a vargrant is your os undo button
 
 Installing Vagrant
 ------------------
@@ -21,47 +21,49 @@ Installing Vagrant
 
     # apt-get install vagrant
 
-This command will also pull virtualbox
+* This command will also pull virtualbox
 
 
 Starting up vagrant
 --------------------
 
-    * let's use a debian image
+* let's use a debian image
 
 
 Vagrantfile pt. 1
 ------------------
 
-    * TODO
+* TODO
 
 
 
 Vagrantfile pt. 5
 -----------------
 
-    * TODO
+* TODO
 
 
 Getting foot in the door
 ------------------------
 
-    * First run copy ssh pubkey and some other stuff
+* First run copy ssh pubkey and some other stuff
 
 .. code-block:: bash
 
     $ ansible-playbook --ask-pass --ask-become-pass -i<hostname>, -vvv base_packages.yaml
 
 
-    * Backup command if script fails and you need to debug it
+* Backup command if script fails and you need to debug it
 
 .. code-block:: bash
 
     $ ansible-playbook -i<hostname>, -vvv base_packages.yaml
 
-    * Comma is important
-    * http://stackoverflow.com/questions/18195142/safely-limiting-ansible-playbooks-to-a-single-machine
-    * http://stackoverflow.com/questions/17188147/how-to-run-ansible-without-specifying-the-inventory-but-the-host-directly
+Comma after hostname is important
+-------------------
+
+* http://stackoverflow.com/questions/18195142/safely-limiting-ansible-playbooks-to-a-single-machine
+* http://stackoverflow.com/questions/17188147/how-to-run-ansible-without-specifying-the-inventory-but-the-host-directly
 
 Installing OpenSource hypervisor providers
 -------------------------------------------
@@ -70,10 +72,11 @@ Installing OpenSource hypervisor providers
 
     # apt-get install vagrant-lxc vagrant-libvirt vagrant-mutate
 
+* vagrant-lxc, vagrant-libvirt -- lxc and libvirt available in stretch and newer
+* vagrant-mutate -- convert original images to lxc/libvirt
 
-    * vagrant-lxc, vagrant-libvirt -- lxc and libvirt available in stretch and newer
-    * vagrant-mutate -- convert original images to lxc/libvirt
-    * for older debian, other distros, use vagrant plugins
+If packages aren't available
+----------------------------
 
 .. code-block:: bash
 
@@ -83,9 +86,13 @@ Installing OpenSource hypervisor providers
 Loading Debian Preseed in USB/CD images
 ---------------------------------------
 
-    * using preseeding -- https://www.debian.org/releases/jessie/i386/apbs02.html.en
-    * edit iso -- https://wiki.debian.org/DebianInstaller/Preseed/EditIso
-    * Really fragile!
+* using preseeding -- https://www.debian.org/releases/jessie/i386/apbs02.html.en
+* edit iso -- https://wiki.debian.org/DebianInstaller/Preseed/EditIso
+* Really fragile!
+
+
+Loop mount ISO images and copy the content
+-------------------------------------------
 
 .. code-block:: bash
 
