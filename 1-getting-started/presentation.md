@@ -286,3 +286,33 @@ $ ansible-playbook ./playbook.yml \
 
 ^ This is the command for running the playbook.
 We speify the playbook file, where the inventory file is located, the remote user we are connecting to the server with, and that we wont to be prompt for a password.
+
+---
+
+# WordPress Server[^3]
+
+[^3]: The source for this playbook is over here: <https://git.io/vPLyL>.
+
+---
+
+```
+group_vars/
+    all
+    db
+    web
+roles/
+    common/
+        handlers/
+        tasks/
+            main.yml
+            firewall.yml
+            ssh.yml
+            users.yml
+    mysql/
+    nginx/
+    php/
+    websites/
+ansible.cfg
+hosts
+playbook.yml
+```
