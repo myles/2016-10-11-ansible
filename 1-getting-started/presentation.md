@@ -1,11 +1,13 @@
 footer: Myles Braithwaite | [mylesb.ca](https://mylesb.ca/) | [me@mylesb.ca](mailto:me@mylesb.ca) | [@mylesb](https://twitter.com/mylesb)
 slidenumbers: true
 
-# [fit] Ansible
+# Ansible
 
-# [fit] Orchestrate your infustrature like **Gustav Mahler**[^1]
+### Orchestrate your infustrature like **Gustav Mahler**[^1]
 
 [^1]: Gustav Mahler is the first result when you Google _famous conductors_.
+
+^ Hello, I'm Myles Braithwaite and I'm going to be talking about Orchestrating your infustracture like Gustav Mahler with Ansible.
 
 ---
 
@@ -15,12 +17,14 @@ slidenumbers: true
 >
 > -- Gustav Mahler *(paraphrasing)*
 
+^ Like Gustav Mahler once said _If a developer could say what they had to say in words they would not bother trying to say it in code._
+
 ---
 
 # Turn your infrastructure administration into a codebase.
 
-^ Ansible is a configuration management and provision tool for *Infrastructure as Code*.
-Which means it automates the job of manual configuration and setting up of computers.
+^ Ansible is a configuration management and provision tool for building your *"Infrastructure as Code"*.
+Which is a fancy way of saying it automates the job of manual configuration and setting up of computers.
 Similar to Chef, Puppet, CFEngine, or Salt.
 
 ---
@@ -32,6 +36,12 @@ Orchestration begins on the controling machine though an Ansible *playbook*.
 Deployment happens over SSH where Ansible modules are temporarily stored on the nodes and communicate with the controlling machine though a JSON protocol over the standard output.
 Because Ansible uses the push method it does not consume resources because no daemons or programs are running in the backgroud.
 This is the major difference between Ansible and toher provisioning tools like Puppet.
+
+---
+
+# [fit] Why Ansible?
+
+^ You are probably asking why Ansible?
 
 ---
 
@@ -94,7 +104,7 @@ This is my second favorite thing about Ansible.
 # Low learning curve.
 
 ^ Playbooks use an easy and descriptive language based on YAML and Jinja templates.
-This is why I think Ansible is far better than Puppet.
+This is why I think Ansible is far better than most provision systems.
 
 ---
 
@@ -140,8 +150,8 @@ tasks:
       upgrade: safe
 ```
 
-^ The last bit we are is the tasks we want to run on the nodes.
-Here we are updating the aptitude cache and then running a safe upgrade on all the packages.
+^ Here are the tasks we want to run on the nodes.
+The tasks here are updating the aptitude cache and then running a safe upgrade on all the packages.
 
 ---
 
@@ -151,7 +161,7 @@ Here we are updating the aptitude cache and then running a safe upgrade on all t
 
 [^2]: If you want to follow along the playbook is here: <https://git.io/vPLE3>.
 
-^ Let's go though a simple Ansible Playbook I though together.
+^ Let's go though a simple Ansible Playbook.
 
 ---
 
@@ -159,11 +169,13 @@ Here we are updating the aptitude cache and then running a safe upgrade on all t
 
 ^ Here is the directory structure of the of the Playbook.
 `ansible.cfg` is basically the configuration of the `ansible-playbook` command.
-`hosts` is our inventory file (where we store where in the world the nodes are lcoated).
+`hosts` is our inventory file (where we store where in the world the nodes are located).
 `playbook.yml` is the our Playbook tasks are stored.
 `vars.yml` is where we store the variables for our Playbook.
 
 ---
+
+# `playbook.yml`
 
 ```yaml
 - name: create the user accounts
@@ -203,7 +215,7 @@ users:
 ```
 
 ^ So let's use the variables file to store that meta data.
-Will just copy over the info to the `vars.yml` file and we are also going to add some more information on where these uses are storing their SSH public keys (as they don't seem to have very strong passwords).
+Will just copy over the info to the `vars.yml` file and we are also going to add some more information on where these uses are storing their SSH public keys (as they don't seem to have strong passwords).
 
 ---
 
@@ -229,6 +241,7 @@ Will just copy over the info to the `vars.yml` file and we are also going to add
 
 ^ Just a side note you tags are really important to do right away.
 They are useful because Ansible will run the entire playbook everytime and if you have a large one it will take a while to run.
+Tags will allow you to run only required tasks.
 
 ---
 
@@ -244,7 +257,7 @@ They are useful because Ansible will run the entire playbook everytime and if yo
 ```
 
 ^ Also because the uses have such bad passwords we are going to disable login by password in the sshd config file.
-Here we are using hte `lineinfile` module to find the option `PasswordAuthentication` and making sure it reads `PasswordAuthentication no`.
+Here we are using the `lineinfile` module to find the option `PasswordAuthentication` and making sure it reads `PasswordAuthentication no`.
 The second last directive here is the notifying the handler to restart ssh.
 
 ---
@@ -285,7 +298,7 @@ $ ansible-playbook ./playbook.yml \
 ```
 
 ^ This is the command for running the playbook.
-We speify the playbook file, where the inventory file is located, the remote user we are connecting to the server with, and that we wont to be prompt for a password.
+We speify the playbook file, where the inventory file is located, the remote user we are connecting to the server with, and that we will need to be prompted for a password.
 
 ---
 
@@ -293,26 +306,4 @@ We speify the playbook file, where the inventory file is located, the remote use
 
 [^3]: The source for this playbook is over here: <https://git.io/vPLyL>.
 
----
-
-```
-group_vars/
-    all
-    db
-    web
-roles/
-    common/
-        handlers/
-        tasks/
-            main.yml
-            firewall.yml
-            ssh.yml
-            users.yml
-    mysql/
-    nginx/
-    php/
-    websites/
-ansible.cfg
-hosts
-playbook.yml
-```
+^ Now let's run though a large Playbook.
