@@ -1,0 +1,33 @@
+---
+
+- name: check to see if wp-cli is installed
+  stat:
+    path: /usr/local/bin/wp"
+  register: wp_bin
+  tags:
+    - php
+    - wordpress
+
+- name: install wp-cli
+  get_url:
+    url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    dest: /tmp/wp-cli.phar
+    mode: 0755
+  when: not wp_bin.stat.exists
+  tags:
+    - php
+    - wordpress
+
+- name: move composer into globally-accessible location
+  shell: mv /tmp/wp-cli.phar /usr/local/bin/wp creates=/usr/local/bin/wp
+  when: not wp_bin.stat.exists
+  tags:
+    - php
+    - wordpress
+
+- name: update wp-cli
+  shell: wp cli update creates=/usr/local/bin/wp
+  when: wp_bin.stat.exists
+  tags:
+    - php
+    - wordpress

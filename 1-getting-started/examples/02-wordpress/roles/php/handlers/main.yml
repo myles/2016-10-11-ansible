@@ -1,3 +1,5 @@
 ---
 - name: reload php5-fpm
-  service: name=php5-fpm state=reloaded
+  service:
+    name: php5-fpm
+    state: reloaded

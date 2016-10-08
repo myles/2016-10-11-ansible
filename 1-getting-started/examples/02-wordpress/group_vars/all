@@ -12,6 +12,10 @@ websites:
       name: myles_life-www
       user: myles_life-www
       pass: myles_life-www
+    plugins:
+      - wp-super-cache
+      - wordpress-seo
+      - wordfence
   - title: I Love Myles
     domain: ilovemyles.com
     admin:
@@ -22,6 +26,11 @@ websites:
       name: ilovemyles_com-www
       user: ilovemyles_com-www
       pass: ilovemyles_com-www
+    plugins:
+      - wp-super-cache
+      - wordpress-seo
+      - wordfence
+      - disable-comments
 
 users:
   - username: myles

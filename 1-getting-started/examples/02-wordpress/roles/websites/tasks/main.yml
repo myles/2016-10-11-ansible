@@ -27,7 +27,7 @@
     src: etc_nginx_site-available_website.j2
     dest: /etc/nginx.sites-available/{{ item.domain }}-www.conf
     owner: root
-    gorup: root
+    group: root
   with_items:
     - "{{ websites }}"
   tags:
@@ -47,42 +47,5 @@
     - websites
   notify: reload nginx
 
-- name: create the mysql database for the websites
-  mysql_db:
-    login_host: "{{ mysql_host }}"
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    name: "{{ item.db.name }}"
-    state: present
-  with_items:
-    - "{{ websites }}"
-  tags:
-    - mysql
-    - websites
-
-- name: create the mysql user for the websites
-  mysql_db:
-    login_host: "{{ mysql_host }}"
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    user: "{{ item.db.user }}"
-    password: "{{ item.db.pass }}"
-    priv: "{{ item.db.name }}.*:ALL"
-  tags:
-    - mysql
-    - websites
-
-- name: download WordPress in the html directory of the websites
-  command: wp core download --path=/srv/www/{{ item.domain }}/www/html
-  args:
-    creates: /srv/www/{{ item.domain }}/www/html/wp-config.php
-  with_items:
-    - "{{ websites }}"
-  tags:
-    - wordpress
-    - websites
-
-- name: install the websites WordPress installations
-  command: wp core install --url={{ item.domain }} --title={{ item.title }} --admin_user={{ item.admin.user }} --admin_password={{ item.admin.pass }} --admin_email={{ item.admin.email }}
-  args:
-    chdir: /srv/www/{{ item.domain }}/www/html/wp-config.php
+- include: db.yml
+- include: wp.yml

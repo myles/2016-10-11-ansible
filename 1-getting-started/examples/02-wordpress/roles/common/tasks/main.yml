@@ -1,4 +1,5 @@
 ---
+
 - name: update apt cache
   apt:
     update_cache: yes
@@ -9,7 +10,7 @@
     upgrade: safe
   tags: dependencies
 
-- name: install required packages
+- name: install required and nice-to-have packages
   apt:
     pkg: "{{ item }}"
     state: installed
@@ -17,24 +18,8 @@
     - "{{ required_packages }}"
   tags: dependencies
 
-- name: install security-related packages
-  apt:
-    pkg: "{{ item }}"
-    state: installed
-  with_items:
-    - fail2ban
-    - whois
-    - lynis
-    - rkhunter
-  tags:
-    - dependencies
-    - security
+- include: firewall.yml # Firewall should alway be first.
 
-- name: ensure fail2ban is started
-  service:
-    name: fail2ban
-    state: started
-
-- include: users.yml
-- include: firewall.yml
+- include: security.yml
 - include: ssh.yml
+- include: users.yml

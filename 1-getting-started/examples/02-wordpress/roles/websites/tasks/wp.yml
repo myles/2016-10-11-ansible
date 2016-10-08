@@ -1,0 +1,29 @@
+---
+
+- name: download WordPress in the html directory of the websites
+  command: wp core download --path=/srv/www/{{ item.domain }}/www/html
+  args:
+    creates: /srv/www/{{ item.domain }}/www/html/wp-config.php
+  with_items:
+    - "{{ websites }}"
+  tags:
+    - wordpress
+    - websites
+
+- name: install the websites WordPress installations
+  command: wp core install --url={{ item.domain }} --title={{ item.title }} --admin_user={{ item.admin.user }} --admin_password={{ item.admin.pass }} --admin_email={{ item.admin.email }} --path=/srv/www/{{ item.domain }}/www/html
+  args:
+    chdir: /srv/www/{{ item.domain }}/www/html/wp-config.php
+  with_items:
+    - "{{ websites }}"
+  tags:
+    - wordpress
+    - websites
+
+- name: install the WordPress plugins
+  command: wp plugin install {{ item.plugins | join(" ") }}
+  with_items:
+    - "{{ websites }}"
+  tags:
+    - wordpress
+    - websites

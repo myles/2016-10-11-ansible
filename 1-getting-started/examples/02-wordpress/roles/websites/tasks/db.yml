@@ -1,0 +1,26 @@
+---
+
+- name: create the mysql database for the websites
+  mysql_db:
+    login_host: "{{ mysql_host }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ item.db.name }}"
+    state: present
+  with_items:
+    - "{{ websites }}"
+  tags:
+    - mysql
+    - websites
+
+- name: create the mysql user for the websites
+  mysql_db:
+    login_host: "{{ mysql_host }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    user: "{{ item.db.user }}"
+    password: "{{ item.db.pass }}"
+    priv: "{{ item.db.name }}.*:ALL"
+  tags:
+    - mysql
+    - websites

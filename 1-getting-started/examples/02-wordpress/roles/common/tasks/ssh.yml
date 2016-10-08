@@ -1,4 +1,5 @@
 ---
+
 - name: disallow root ssh access
   lineinfile:
     dest: /etc/ssh/sshd_config
@@ -22,15 +23,6 @@
     state: installed
   tags:
     - dependencies
-    - ssh
-
-- name: set firewall rule for ssh
-  ufw:
-    rule: allow
-    port: ssh
-    proto: tcp
-  tags:
-    - firewall
     - ssh
 
 - name: set firewall rule for mosh

@@ -1,4 +1,5 @@
 ---
+
 - name: install ufw
   apt:
     pkg: ufw
@@ -7,10 +8,19 @@
     - dependencies
     - firewall
 
-- name: deny everything
+- name: set firewall to deny everything
   ufw:
     policy: deny
   tags: firewall
+
+- name: set firewall rule for ssh traffic
+  ufw:
+    rule: allow
+    port: ssh
+    proto: tcp
+  tags:
+    - firewall
+    - ssh
 
 - name: enable ufw
   ufw:
