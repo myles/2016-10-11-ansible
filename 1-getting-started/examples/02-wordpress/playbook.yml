@@ -1,21 +1,26 @@
 ---
 - name: install and configure the all the servers
   hosts: all
+  become: yes
+  become_user: root
   
   roles:
     - common
 
 - name: setup the db servers
   hosts: db
+  become: yes
+  become_user: root
   
   roles:
     - mysql
 
 - name: setup the web servers
   hosts: web
+  become: yes
+  become_user: root
   
   roles:
     - nginx
     - php
-    - sbaerlocher.wp-cli
     - website
