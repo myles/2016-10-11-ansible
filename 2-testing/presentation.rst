@@ -143,6 +143,23 @@ Using different hypervisors
 * This works however virtualbox is not a preferred hypervisor.
 * It is not possible to run more than one hypervisor at a time.
 
+Installing OpenSource hypervisor providers
+-------------------------------------------
+
+.. code-block:: bash
+
+    # apt-get install vagrant-lxc vagrant-libvirt vagrant-mutate
+
+* vagrant-lxc, vagrant-libvirt -- lxc and libvirt available in stretch and newer
+* vagrant-mutate -- convert original images to lxc/libvirt
+
+If packages aren't available
+----------------------------
+
+.. code-block:: bash
+
+    $ vagrant plugin install vagrant-lxc vagrant-libvirt vagrant-mutate
+
 
 Download vagrant libvirt box
 ---------------------------
@@ -228,7 +245,30 @@ Run ansible ping command
         "ping": "pong"
     }
 
-Running ansible script agains vagrant box
+
+Download vagrant lxc box
+------------------------
+
+.. code-block:: bash
+    # apt-get install vagrant-lxc
+    $ vagrant box add debian/jessie64 --provider=lxc
+
+
+Startup vagrant lxc box
+-----------------------
+Still kind of buggy.
+
+
+Getting from bare metal to Ansible with Debian automated install
+----------------------------------------------------------------
+
+I used to have a bunch of slides, but I put everything in *gen_iso.sh* it requires
+an preseed.cfg file and generates debian iso image based on debian-8.6.0-amd64-CD-1.iso
+with preseed.cfg slipped in.
+
+
+
+Running ansible script against vagrant box
 -----------------------------------------
 
 .. code-block:: bash
@@ -239,7 +279,7 @@ Running ansible script agains vagrant box
 Getting foot in the door
 ------------------------
 
-* First run copy ssh pubkey and some other stuff
+* First run copy ssh pubkey and some other things on a new system
 
 .. code-block:: bash
 
@@ -258,23 +298,6 @@ Comma after hostname is important
 * http://stackoverflow.com/questions/18195142/safely-limiting-ansible-playbooks-to-a-single-machine
 * http://stackoverflow.com/questions/17188147/how-to-run-ansible-without-specifying-the-inventory-but-the-host-directly
 
-Installing OpenSource hypervisor providers
--------------------------------------------
-
-.. code-block:: bash
-
-    # apt-get install vagrant-lxc vagrant-libvirt vagrant-mutate
-
-* vagrant-lxc, vagrant-libvirt -- lxc and libvirt available in stretch and newer
-* vagrant-mutate -- convert original images to lxc/libvirt
-
-If packages aren't available
-----------------------------
-
-.. code-block:: bash
-
-    $ vagrant plugin install vagrant-lxc vagrant-libvirt vagrant-mutate
-
 
 Loading Debian Preseed in USB/CD images
 ---------------------------------------
@@ -282,46 +305,4 @@ Loading Debian Preseed in USB/CD images
 * using preseeding -- https://www.debian.org/releases/jessie/i386/apbs02.html.en
 * edit iso -- https://wiki.debian.org/DebianInstaller/Preseed/EditIso
 * Really fragile!
-
-
-Loop mount ISO images and copy the content
--------------------------------------------
-
-.. code-block:: bash
-
-    # mkdir loopdir
-    # mount -o loop debian-8.5.0-amd64-CD-1.iso loopdir
-    # mkdir cd
-    # rsync -a -H --exclude=TRANS.TBL loopdir/ cd
-    # umount loopdir
-
-Hack initrd
------------
-
-.. code-block:: bash
-
-    # mkdir irmod
-    # cd irmod
-    # gzip -dc ../cd/install.amd/initrd.gz | \
-        cpio --extract --verbose --make-directories --no-absolute-filenames
-
-
-Copy config file to preseed.cfg and assemble initrd
----------------------------------------------------
-
-.. code-block:: bash
-
-    # cp ../mail-template-selections.conf preseed.cfg
-    # find . | cpio -H newc --create --verbose | gzip -9 > ../cd/install.amd/initrd.gz
-    # cd ../
-    # rm -rf irmod
-
-
-Generate an image
------------------
-
-.. code-block:: bash
-
-    # genisoimage -o debian-amd64-preseed.iso -r -J -no-emul-boot -boot-load-size 4  \
-        -boot-info-table -b isolinux/isolinux.bin -c isolinux/boot.cat ./cd
 
