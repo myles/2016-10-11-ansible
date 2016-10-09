@@ -165,7 +165,7 @@ The tasks here are updating the aptitude cache and then running a safe upgrade o
 
 ---
 
-![fill](media/003-directory-layout.png)
+![fit](media/003-directory-layout.png)
 
 ^ Here is the directory structure of the of the Playbook.
 `ansible.cfg` is basically the configuration of the `ansible-playbook` command.
