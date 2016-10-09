@@ -24,16 +24,49 @@ Installing Vagrant
 * This command will also pull virtualbox
 
 
-Starting up vagrant
---------------------
+Getting a Vagrant box
+---------------------
 
 * let's use a debian image
+* Go to https://atlas.hashicorp.com/boxes/search
+* https://atlas.hashicorp.com/debian/boxes/jessie64
+* Box name is debian/jessie64
+
+Downloading a box on the system
+-------------------------------
+
+.. code-block:: bash
+
+    $ vagrant box add debian/jessie64
+    ==> box: Loading metadata for box 'debian/jessie64'
+        box: URL: https://atlas.hashicorp.com/debian/jessie64
+    ==> box: Adding box 'debian/jessie64' (v8.6.1) for provider: virtualbox
+        box: Downloading: https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.6.1/providers/virtualbox.box
+    ==> box: Successfully added box 'debian/jessie64' (v8.6.1) for 'virtualbox'!
 
 
-Vagrantfile pt. 1
-------------------
+Starting up a Vagrant box
+-------------------------
 
-* TODO
+* Add file named *Vagrantfile* with the following content
+
+.. code-block:: ruby
+
+    Vagrant.configure("2") do |config|
+        config.vm.box = "debian/jessie64"
+    end
+
+Starting up a Vagrant box
+-------------------------
+
+* From the directory where *Vagrant* file is located
+* Bring up the box:
+
+.. code-block:: bash
+
+    # vagrant up
+
+
 
 
 
