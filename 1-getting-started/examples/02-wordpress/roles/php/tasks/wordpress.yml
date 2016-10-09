@@ -2,7 +2,7 @@
 
 - name: check to see if wp-cli is installed
   stat:
-    path: /usr/local/bin/wp"
+    path: /usr/local/bin/wp
   register: wp_bin
   tags:
     - php

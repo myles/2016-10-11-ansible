@@ -1,7 +1,7 @@
 ---
 - name: check to see if composer is installed
   stat:
-    path: /usr/local/bin/composer"
+    path: /usr/local/bin/composer
   register: composer_bin
   tags:
     - php
@@ -33,7 +33,6 @@
 
 - name: update composer to latest version
   shell: /usr/bin/php /usr/local/bin/composer self-update
-  register: composer_update
   tags:
     - php
     - composer
