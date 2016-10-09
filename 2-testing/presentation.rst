@@ -65,46 +65,10 @@ Starting up a Vagrant box
 .. code-block:: bash
 
     $ vagrant up
-    Bringing machine 'default' up with 'virtualbox' provider...
-    ==> default: Importing base box 'debian/jessie64'...
-    ==> default: Matching MAC address for NAT networking...
-    ==> default: Checking if box 'debian/jessie64' is up to date...
-    ==> default: Setting the name of the VM: vagrant_default_1475977923656_21896
-    ==> default: Clearing any previously set network interfaces...
-    ==> default: Preparing network interfaces based on configuration...
-        default: Adapter 1: nat
-    ==> default: Forwarding ports...
-        default: 22 (guest) => 2222 (host) (adapter 1)
-    ==> default: Running 'pre-boot' VM customizations...
-    ==> default: Booting VM...
-    ==> default: Waiting for machine to boot. This may take a few minutes...
-        default: SSH address: 127.0.0.1:2222
-        default: SSH username: vagrant
-        default: SSH auth method: private key
 
-        default:
-        default: Vagrant insecure key detected. Vagrant will automatically replace
-        default: this with a newly generated keypair for better security.
-        default:
-        default: Inserting generated public key within guest...
-        default: Removing insecure key from the guest if it's present...
-        default: Key inserted! Disconnecting and reconnecting using new SSH key...
-    ==> default: Machine booted and ready!
-    ==> default: Checking for guest additions in VM...
-        default: No guest additions were detected on the base box for this VM! Guest
-        default: additions are required for forwarded ports, shared folders, host only
-        default: networking, and more. If SSH fails on this machine, please install
-        default: the guest additions and repackage the box to continue.
-        default:
-        default: This is not an error message; everything may continue to work properly,
-        default: in which case you may ignore this message.
-    ==> default: Installing rsync to the VM...
-    ==> default: Rsyncing folder: /home/alex/tmp/vagrant/ => /vagrant
+test test test
 
-    ==> default: Machine 'default' has a post `vagrant up` message. This is a message
-    ==> default: from the creator of the Vagrantfile, and not from Vagrant itself:
-    ==> default:
-    ==> default: Vanilla Debian box. See https://atlas.hashicorp.com/debian/ for help and bug reports
+.. image:: media/01-vagrant-vbox.png
 
 
 Display vagrant machine ssh configuration
@@ -171,6 +135,8 @@ Running script on vagrant box
 .. code-block:: bash
 
     $ ansible-playbook -vvv base-packages.yaml
+
+
 
 Running ansible script agains vagrant box
 -----------------------------------------
