@@ -117,7 +117,7 @@ Ansible hosts file
     [test]
     testserver ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
 
-Testing SSH connetivity
+Testing SSH connectivity
 -----------------------
 
 .. code-block:: bash
@@ -144,7 +144,7 @@ Using different hypervisors
 * It is not possible to run more than one hypervisor at a time.
 
 
-Using libvirt as hypervisor
+Download vagrant libvirt box
 ---------------------------
 
 .. code-block:: bash
@@ -161,15 +161,72 @@ libvirt Vagrantfile configuration
 
 
     VAGRANTFILE_API_VERSION = "2"
-
     Vagrant.configure("2") do |config|
-        config.vm.box = "debian/jessie64"
-        machine.vm.provider :libvirt do |domain|
-          domain.memory = 2048
-          domain.cpus = 2
+        config.vm.provider :libvirt do |libvirt|
+            libvirt.host = 'localhost'
+            libvirt.username = 'alex'
+            libvirt.connect_via_ssh = true
+        end
+        config.vm.define :libvirt_vm do |machine|
+            machine.vm.box = "debian/jessie64"
         end
     end
 
+
+Start up vagrant libvirt box
+----------------------------
+
+..code-block:: bash
+
+    $vagrant up --provider=libvirt
+
+Vagrant libvirt box is running
+------------------------------
+
+.. image:: media/02-vagrant-libvirt.png
+
+Vagrant ssh config for virtualbox is different
+----------------------------------------------
+
+..code-block:: bash
+
+    $ vagrant ssh-config
+    Host libvirt_vm
+      HostName 192.168.121.237
+      User vagrant
+      Port 22
+      UserKnownHostsFile /dev/null
+      StrictHostKeyChecking no
+      PasswordAuthentication no
+      IdentityFile /home/alex/git/gtalug/2016-10-11-ansible/2-testing/02-vagrant-libvirt/.vagrant/machines/libvirt_vm/libvirt/private_key
+      IdentitiesOnly yes
+      LogLevel FATAL
+      ProxyCommand ssh 'localhost' -l 'alex' -i '/home/alex/.ssh/id_rsa' nc %h %p
+
+
+Update ansible.cfg settings
+---------------------------
+
+* Set a new path to private_key_file
+
+.. code-block:: ini
+    private_key_file = .vagrant/machines/libvirt_vm/libvirt/private_key
+
+Update hosts settings
+---------------------
+
+.. code-block:: ini
+    vagrant_libvirt ansible_ssh_host=192.168.121.237 ansible_ssh_port=22
+
+Run ansible ping command
+------------------------
+
+.. code-block:: bash
+    $ ansible test -m ping
+    testserver | SUCCESS => {
+        "changed": false,
+        "ping": "pong"
+    }
 
 Running ansible script agains vagrant box
 -----------------------------------------
@@ -177,7 +234,6 @@ Running ansible script agains vagrant box
 .. code-block:: bash
 
     $ ansible-playbook -ilocalhost, --ssh-common-args="-P 2222" -vvv base_packages.yaml
-
 
 
 Getting foot in the door
