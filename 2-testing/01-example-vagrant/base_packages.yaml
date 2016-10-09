@@ -1,0 +1,14 @@
+---
+- name: Configure base packages for a server
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: copy screenrc
+      copy: src=copy_files/screenrc dest=/home/vagrant/.screenrc
+    - name: install screen
+      apt: name=screen update_cache=no
+    - name: install vim
+      apt: name=vim update_cache=no
+

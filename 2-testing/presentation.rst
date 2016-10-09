@@ -132,12 +132,52 @@ Log into vagrant box
 
     $ vagrant ssh
 
+
+Ansible machine configuration ansible.cfg
+-----------------------------------------
+
+.. code-block:: ini
+
+    [defaults]
+    hostfile = hosts
+    remote_user = vagrant
+    private_key_file = .vagrant/machines/default/virtualbox/private_key
+    host_key_checking = False
+
+
+Ansible hosts file
+------------------
+
+.. code-block:: ini
+
+    [test]
+    testserver ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+
+Testing SSH connetivity
+-----------------------
+
+.. code-block:: bash
+
+    $ ansible test -m ping
+    testserver | SUCCESS => {
+        "changed": false,
+        "ping": "pong"
+    }
+
+
+Running script on vagrant box
+-----------------------------
+
+.. code-block:: bash
+
+    $ ansible-playbook -vvv base-packages.yaml
+
 Running ansible script agains vagrant box
 -----------------------------------------
 
 .. code-block:: bash
 
-    $ ansible-playbook --ssh_port=2222 -ilocalhost, -vvv base_packages.yaml
+    $ ansible-playbook -ilocalhost, --ssh-common-args="-P 2222" -vvv base_packages.yaml
 
 
 
