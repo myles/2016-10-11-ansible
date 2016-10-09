@@ -137,6 +137,39 @@ Running script on vagrant box
     $ ansible-playbook -vvv base-packages.yaml
 
 
+Using different hypervisors
+---------------------------
+
+* This works however virtualbox is not a preferred hypervisor.
+* It is not possible to run more than one hypervisor at a time.
+
+
+Using libvirt as hypervisor
+---------------------------
+
+.. code-block:: bash
+
+    # apt-get install vagrant-libvirt
+    $ vagrant box add debian/jessie64 --provider=libvirt
+
+
+libvirt Vagrantfile configuration
+---------------------------------
+
+
+..code-block:: ruby
+
+
+    VAGRANTFILE_API_VERSION = "2"
+
+    Vagrant.configure("2") do |config|
+        config.vm.box = "debian/jessie64"
+        machine.vm.provider :libvirt do |domain|
+          domain.memory = 2048
+          domain.cpus = 2
+        end
+    end
+
 
 Running ansible script agains vagrant box
 -----------------------------------------
