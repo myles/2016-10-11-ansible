@@ -107,6 +107,24 @@ Starting up a Vagrant box
     ==> default: Vanilla Debian box. See https://atlas.hashicorp.com/debian/ for help and bug reports
 
 
+Display vagrant machine ssh configuration
+-----------------------------------------
+
+.. code-block:: bash
+
+    $ vagrant ssh-config
+    Host default
+        HostName 127.0.0.1
+        User vagrant
+        Port 2222
+        UserKnownHostsFile /dev/null
+        StrictHostKeyChecking no
+        PasswordAuthentication no
+        IdentityFile /home/alex/git/gtalug/2016-10-11-ansible/2-testing/01-base/.vagrant/machines/default/virtualbox/private_key
+        IdentitiesOnly yes
+        LogLevel FATAL
+
+
 Log into vagrant box
 --------------------
 
@@ -114,10 +132,13 @@ Log into vagrant box
 
     $ vagrant ssh
 
-Vagrantfile pt. 5
------------------
+Running ansible script agains vagrant box
+-----------------------------------------
 
-* TODO
+.. code-block:: bash
+
+    $ ansible-playbook --ssh_port=2222 -ilocalhost, -vvv base_packages.yaml
+
 
 
 Getting foot in the door
@@ -127,7 +148,7 @@ Getting foot in the door
 
 .. code-block:: bash
 
-    $ ansible-playbook --ask-pass --ask-become-pass -i<hostname>, -vvv base_packages.yaml
+    $ ansible-playbook --ask-pass --ask-become-pass --ssh_port=2222 -i<hostname>, -vvv base_packages.yaml
 
 
 * Backup command if script fails and you need to debug it
