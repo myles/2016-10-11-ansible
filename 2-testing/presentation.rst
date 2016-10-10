@@ -141,17 +141,17 @@ Installing OpenSource hypervisor providers
 
 .. code-block:: bash
 
-    # apt-get install vagrant-lxc vagrant-libvirt vagrant-mutate
+    # apt-get install vagrant-libvirt vagrant-mutate
 
-* vagrant-lxc, vagrant-libvirt -- lxc and libvirt available in stretch and newer
-* vagrant-mutate -- convert original images to lxc/libvirt
+* vagrant-libvirt -- libvirt available in stretch and newer
+* vagrant-mutate -- convert original images to libvirt
 
 If packages aren't available
 ----------------------------
 
 .. code-block:: bash
 
-    $ vagrant plugin install vagrant-lxc vagrant-libvirt vagrant-mutate
+    $ vagrant plugin install vagrant-libvirt vagrant-mutate
 
 
 Download vagrant libvirt box
@@ -218,13 +218,14 @@ Update ansible.cfg settings
 
 * Set a new path to private_key_file
 
-.. code-block:: ini
+.. code-block::
+
     private_key_file = .vagrant/machines/libvirt_vm/libvirt/private_key
 
 Update hosts settings
 ---------------------
 
-.. code-block:: ini
+.. code-block::
 
     vagrant_libvirt ansible_ssh_host=192.168.121.237 ansible_ssh_port=22
 
@@ -238,21 +239,6 @@ Run ansible ping command
         "changed": false,
         "ping": "pong"
     }
-
-
-Download vagrant lxc box
-------------------------
-
-.. code-block:: bash
-
-    # apt-get install vagrant-lxc
-    $ vagrant box add debian/jessie64 --provider=lxc
-
-
-Startup vagrant lxc box
------------------------
-Still kind of buggy.
-
 
 Creating preseed file
 ---------------------
