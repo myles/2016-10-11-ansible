@@ -4,15 +4,12 @@ Vagrant, hypervisors, debian automated install and other rants
 What is Vagrant?
 ----------------
 
-* A person without a settled home or regular work who wanders from place to place and lives by begging.
-* Vagrant is an Open-source software product for building and maintaining portable virtual development environments
 * Vagrant provides easy to configure, reproducible, and portable work environments.
 
 Why Vagrant is useful?
 ----------------------
 
-* Vagrant provides fully virtualized OS environment that can be build in seconds
-* You need to debug a script, and a vargrant is your os undo button
+* Drafting and testing ansible scripts
 
 Installing Vagrant
 ------------------
@@ -38,11 +35,7 @@ Downloading a box on the system
 .. code-block:: bash
 
     $ vagrant box add debian/jessie64
-    ==> box: Loading metadata for box 'debian/jessie64'
-        box: URL: https://atlas.hashicorp.com/debian/jessie64
-    ==> box: Adding box 'debian/jessie64' (v8.6.1) for provider: virtualbox
-        box: Downloading: https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.6.1/providers/virtualbox.box
-    ==> box: Successfully added box 'debian/jessie64' (v8.6.1) for 'virtualbox'!
+
 
 
 Starting up a Vagrant box
@@ -52,6 +45,7 @@ Starting up a Vagrant box
 
 .. code-block:: ruby
 
+    VAGRANTFILE_API_VERSION = "2"
     Vagrant.configure("2") do |config|
         config.vm.box = "debian/jessie64"
     end
@@ -66,7 +60,6 @@ Starting up a Vagrant box
 
     $ vagrant up
 
-test test test
 
 .. image:: media/01-vagrant-vbox.png
 
@@ -164,6 +157,8 @@ If packages aren't available
 Download vagrant libvirt box
 ---------------------------
 
+Install *libvirt* version of the machine
+
 .. code-block:: bash
 
     # apt-get install vagrant-libvirt
@@ -174,8 +169,7 @@ libvirt Vagrantfile configuration
 ---------------------------------
 
 
-..code-block:: ruby
-
+.. code-block:: ruby
 
     VAGRANTFILE_API_VERSION = "2"
     Vagrant.configure("2") do |config|
@@ -193,19 +187,17 @@ libvirt Vagrantfile configuration
 Start up vagrant libvirt box
 ----------------------------
 
-..code-block:: bash
+.. code-block:: bash
 
     $vagrant up --provider=libvirt
 
-Vagrant libvirt box is running
-------------------------------
 
 .. image:: media/02-vagrant-libvirt.png
 
 Vagrant ssh config for virtualbox is different
 ----------------------------------------------
 
-..code-block:: bash
+.. code-block:: bash
 
     $ vagrant ssh-config
     Host libvirt_vm
@@ -233,12 +225,14 @@ Update hosts settings
 ---------------------
 
 .. code-block:: ini
+
     vagrant_libvirt ansible_ssh_host=192.168.121.237 ansible_ssh_port=22
 
 Run ansible ping command
 ------------------------
 
 .. code-block:: bash
+
     $ ansible test -m ping
     testserver | SUCCESS => {
         "changed": false,
@@ -250,6 +244,7 @@ Download vagrant lxc box
 ------------------------
 
 .. code-block:: bash
+
     # apt-get install vagrant-lxc
     $ vagrant box add debian/jessie64 --provider=lxc
 
@@ -259,21 +254,34 @@ Startup vagrant lxc box
 Still kind of buggy.
 
 
-Getting from bare metal to Ansible with Debian automated install
-----------------------------------------------------------------
+Creating preseed file
+---------------------
 
-I used to have a bunch of slides, but I put everything in *gen_iso.sh* it requires
-an preseed.cfg file and generates debian iso image based on debian-8.6.0-amd64-CD-1.iso
-with preseed.cfg slipped in.
+* Install debian system answering all the install questions
+* Install debian-installer package on the system
+* Extract the answers
 
-
-
-Running ansible script against vagrant box
------------------------------------------
+Preseed Answers extraction
+--------------------------
 
 .. code-block:: bash
 
-    $ ansible-playbook -ilocalhost, --ssh-common-args="-P 2222" -vvv base_packages.yaml
+    # debconf-get-selections --installer > ${HOME}/preseed.cfg
+    # debconf-get-selections >> ${HOME}/preseed.cfg
+
+
+
+Getting from bare metal to Ansible with Debian automated install
+----------------------------------------------------------------
+
+* Ugly shell script in *gen_iso.sh
+* Creates iso with preseed file based on debian-8.6.0-amd64-CD-1.iso
+
+
+Running an installation with preseed.cfg
+----------------------------------------
+
+TODO: Add a movie movie
 
 
 Getting foot in the door
