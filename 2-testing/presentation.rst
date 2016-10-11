@@ -267,7 +267,8 @@ Getting from bare metal to Ansible with Debian automated install
 Running an installation with preseed.cfg
 ----------------------------------------
 
-TODO: Add a movie movie
+    * Currently installation halts at root password.
+    * Any Help fixing this is really appreciated
 
 
 Getting foot in the door
