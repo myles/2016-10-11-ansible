@@ -46,5 +46,3 @@ sudo cp ${preseed} .
 sudo bash -c "find . | cpio -H newc --create --verbose | gzip -9 > ../${work_dir}/install.amd/initrd.gz"
 
 sudo  genisoimage -o ${preseed_final} -r -J -no-emul-boot -boot-load-size 4 -boot-info-table -b isolinux/isolinux.bin -c isolinux/boot.cat ${work_dir}
-
-sudo umount "${tmp_dir}"
