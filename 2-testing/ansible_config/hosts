@@ -1,0 +1,3 @@
+[test]
+vagrant_vbox ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+vagrant_libvirt ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200
