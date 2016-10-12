@@ -35,7 +35,7 @@ websites:
 users:
   - username: myles
     password: $6$rounds=656000$MVpijHsbPAWVSLY2$5xna9ig7u6n8OZb.WpoSQukt9a2BN.NH5QYbH9lSi3Ouj841B4OLiFm1u2sBbSDUzmh9pwLFjV.izHTXjlXux0
-    atuhorized_key: ~/Downloads/myles-id_rsa.pub
+    authorized_key: ~/Downloads/myles-id_rsa.pub
 
 required_packages:
   - git

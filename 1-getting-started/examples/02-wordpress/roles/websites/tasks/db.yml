@@ -14,7 +14,7 @@
     - websites
 
 - name: create the mysql user for the websites
-  mysql_db:
+  mysql_user:
     login_host: "{{ mysql_host }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
