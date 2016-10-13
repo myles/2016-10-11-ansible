@@ -2,28 +2,70 @@
 
 set -ex
 
-iso_img='debian-8.6.0-amd64-CD-1.iso'
-preseed="preseed.cfg"
+
+help() {
+cat << EOF
+Usage: ${0##*/} [-h] -i debian.iso -p preseed.cfg outfile.iso
+Given a Debian iso image, produce a new ISO image with preseed.cfg installed
+in order to facilitate an automated install.
+
+    -h              display help and exit
+    -i debian.iso   specify input iso image
+    -p preseed.cfg  debian preseed configuration for automated install
+    outfile.iso     output iso image with preseed slipstreamed
+
+This script creates several temporary directories in current directory and requires sudo, rsync and genisoimage commands to be available.
+
+EOF
+}
+
+OPTIND=1
+
+options="hi:p::"
+iso_img=""
+preseed=""
+
+while getopts $options option
+do
+    case $option in
+        i ) iso_img=`realpath $OPTARG`;;
+        p ) preseed=`realpath $OPTARG`;;
+        h ) help; exit 1;;
+        \? ) echo "Unknown option: -$OPTARG" >&2; exit 1;;
+        :  ) echo "Missing option argument for -$OPTARG" >&2; exit 1;;
+    esac
+done
+shift "$((OPTIND-1))"
+preseed_final=$@
+
+if [ -z "${iso_img}" ] || [ ! -f "${iso_img}" ]
+then
+    echo "Missing -i debian.iso argument" >&2
+    exit 1
+fi
+
+if [ -z "${preseed}" ] || [ ! -f "${preseed}" ]
+then
+    echo "Missing -p preseed.cfg argument" >&2
+    exit 1
+fi
+
+if [ -z "${preseed_final}" ]
+then
+    echo "Please specify output file" >&2
+    exit 1
+fi
+
 work_dir="img_dir"
-preseed_final="debian-amd64-preseed.iso"
 tmp_dir="loopdir"
 irmod="irmod"
 
 rel_workdir=${work_dir}
-iso_img="${PWD}/${iso_img}"
-preseed="${PWD}/${preseed}"
 work_dir="${PWD}/${work_dir}"
+loopdir="${PWD}/${loopdir}"
 preseed_final="${PWD}/${preseed_final}"
 irmod="${PWD}/${irmod}"
 
-
-
-
-if [ ! -f "${preseed}" ]
-    then
-    echo "${preceed} file not found"
-    exit 1
-fi
 
 sudo rm -f "${preseed_final}"
 sudo rm -rf "${work_dir}"
@@ -51,3 +93,6 @@ sudo  genisoimage -o ${preseed_final} -r -J -no-emul-boot -boot-load-size 4 -boo
 
 cd ..
 sudo umount "${tmp_dir}"
+sudo rm -rf "${work_dir}"
+sudo rm -rf "${tmp_dir}"
+sudo rm -rf "${irmod}"
