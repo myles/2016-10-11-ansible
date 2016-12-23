@@ -174,6 +174,7 @@ libvirt Vagrantfile configuration
     VAGRANTFILE_API_VERSION = "2"
     Vagrant.configure("2") do |config|
         config.vm.provider :libvirt do |libvirt|
+            libvirt.uri = 'qemu+unix:///system'
             libvirt.host = 'localhost'
             libvirt.username = 'alex'
             libvirt.connect_via_ssh = true
